@@ -4,7 +4,7 @@ import SwiftUI
 struct ApprovalDemoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
     }
 }
