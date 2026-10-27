@@ -10,6 +10,7 @@ protocol ApprovalServerType: Sendable {
     func approve(_ requestID: UUID, deviceID: UUID, signature: Data) async throws
     func deny(_ requestID: UUID) async throws
     func request(_ id: UUID) async -> ApprovalRequest?
+    func auditLog() async -> [AuditEntry]
 }
 
 actor ApprovalServer: ApprovalServerType {
@@ -23,6 +24,7 @@ actor ApprovalServer: ApprovalServerType {
     private var keys: [UUID: Data] = [:]
     private var revoked: Set<UUID> = []
     private var requests: [UUID: ApprovalRequest] = [:]
+    private var log: [AuditEntry] = []
 
     // MARK: - Init
 
@@ -38,11 +40,13 @@ actor ApprovalServer: ApprovalServerType {
 
         let deviceID = UUID()
         keys[deviceID] = publicKey
+        record("Device enrolled with its public key", .info)
         return deviceID
     }
 
     func revoke(_ deviceID: UUID) {
         revoked.insert(deviceID)
+        record("Device disabled: its signatures are now refused", .info)
     }
 
     func requestSignIn(context: String) -> ApprovalRequest {
@@ -55,6 +59,7 @@ actor ApprovalServer: ApprovalServerType {
             status: .pending
         )
         requests[request.id] = request
+        record("Request created, expires in \(Int(Self.validity)) s", .info)
         return request
     }
 
@@ -83,6 +88,7 @@ actor ApprovalServer: ApprovalServerType {
 
         request.status = .approved
         requests[requestID] = request
+        record("Signature verified with the enrolled key: approved", .success)
     }
 
     func deny(_ requestID: UUID) throws {
@@ -93,17 +99,27 @@ actor ApprovalServer: ApprovalServerType {
         request.status = .denied
         requests[requestID] = request
         logger.notice("Request \(requestID.uuidString, privacy: .public) denied")
+        record("Denied by the user", .info)
     }
 
     func request(_ id: UUID) -> ApprovalRequest? {
         requests[id]
     }
 
+    func auditLog() -> [AuditEntry] {
+        log
+    }
+
     // MARK: - Private
 
     private func reject(_ error: ApprovalError) -> ApprovalError {
         logger.error("Rejected: \(String(describing: error), privacy: .public)")
+        record("Rejected: \(error.localizedDescription)", .failure)
         return error
+    }
+
+    private func record(_ text: String, _ outcome: AuditEntry.Outcome) {
+        log.append(AuditEntry(date: now(), text: text, outcome: outcome))
     }
 
     private static func verify(_ signature: Data, of payload: Data, with publicKey: Data) -> Bool {

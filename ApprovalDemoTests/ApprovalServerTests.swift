@@ -107,6 +107,29 @@ struct ApprovalServerTests {
         }
     }
 
+    @Test("The audit log records each verified approval and each rejection")
+    func auditLogRecordsOutcomes() async throws {
+        // GIVEN: an approved request
+        let (server, key, deviceID) = try await makeEnrolled()
+        let request = await server.requestSignIn(context: context)
+        let signature = try sign(request, deviceID, key)
+        try await server.approve(request.id, deviceID: deviceID, signature: signature)
+
+        // WHEN: the same response is replayed
+        try? await server.approve(request.id, deviceID: deviceID, signature: signature)
+
+        // THEN: the log ends with the approval, then the rejection and its reason
+        let outcomes = await server.auditLog().suffix(2).map(\.outcome)
+        #expect(outcomes == [.success, .failure])
+        #expect(await server.auditLog().last?.text == "Rejected: \(ApprovalError.alreadyUsed.localizedDescription)")
+    }
+
+    @Test("Rejection reasons read as sentences")
+    func rejectionReasonsAreReadable() {
+        #expect(ApprovalError.expired.localizedDescription == "This request expired.")
+        #expect(ApprovalError.alreadyUsed.localizedDescription == "This request was already answered.")
+    }
+
     // MARK: - Helpers
 
     private func makeEnrolled(
