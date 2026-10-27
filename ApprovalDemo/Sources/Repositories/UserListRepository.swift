@@ -1,6 +1,6 @@
 import Foundation
 
-protocol UserListRepositoryType {
+protocol UserListRepositoryType: Sendable {
     func getUserList() async throws -> UserListResponse
 }
 
@@ -8,11 +8,11 @@ final class UserListRepository: UserListRepositoryType {
 
     // MARK: - Properties
 
-    private let executedDataRequest: (URLRequest) async throws -> (Data, URLResponse)
+    private let executedDataRequest: @Sendable (URLRequest) async throws -> (Data, URLResponse)
 
     // MARK: - Init
 
-    init(executedDataRequest: @escaping (URLRequest) async throws -> (Data, URLResponse) = URLSession.shared.data(for:)) {
+    init(executedDataRequest: @escaping @Sendable (URLRequest) async throws -> (Data, URLResponse) = URLSession.shared.data(for:)) {
         self.executedDataRequest = executedDataRequest
     }
 

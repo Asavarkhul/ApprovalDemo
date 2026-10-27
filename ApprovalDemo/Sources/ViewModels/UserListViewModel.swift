@@ -1,16 +1,16 @@
 import SwiftUI
-import Combine
 
-@MainActor // Ensures published properties are updated on the main thread
-final class UserListViewModel: ObservableObject {
+@MainActor // Ensures observed properties are updated on the main thread
+@Observable
+final class UserListViewModel {
     
     // Dependency
     private let repository: UserListRepositoryType
     
-    // Published state
-    @Published var users: [User] = []
-    @Published var isLoading: Bool = false
-    @Published var error: Error?
+    // Observed state
+    var users: [User] = []
+    var isLoading: Bool = false
+    var error: Error?
 
     // Inject the repository; default to a new `UserListRepository()`
     init(repository: UserListRepositoryType = UserListRepository()) {

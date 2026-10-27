@@ -2,10 +2,19 @@ import Foundation
 @testable import ApprovalDemo
 
 final class MockUserListRepository: UserListRepositoryType {
-    var shouldFail: Bool = false
+    enum Outcome {
+        case success
+        case failure
+    }
+
+    private let outcome: Outcome
+
+    init(outcome: Outcome) {
+        self.outcome = outcome
+    }
 
     func getUserList() async throws -> UserListResponse {
-        if shouldFail {
+        if outcome == .failure {
             throw URLError(.badServerResponse)
         }
         return UserListResponse(

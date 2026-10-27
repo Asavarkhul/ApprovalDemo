@@ -2,10 +2,10 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject private var viewModel = UserListViewModel()
+    @State private var viewModel = UserListViewModel()
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Group {
                 if viewModel.isLoading {
                     ProgressView("Loading...")

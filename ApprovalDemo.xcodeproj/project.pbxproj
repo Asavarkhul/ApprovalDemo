@@ -24,6 +24,7 @@
 		2F2207362D414DA800646022 /* ApprovalDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ApprovalDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F2207462D414DA900646022 /* ApprovalDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApprovalDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FE5288B2D41806200E591E1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2FA0C0012E8F000000000001 /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -61,10 +62,19 @@
 			isa = PBXGroup;
 			children = (
 				2FE5288B2D41806200E591E1 /* README.md */,
+				2FA0C0012E8F000000000002 /* Config */,
 				2F2207382D414DA800646022 /* ApprovalDemo */,
 				2F2207492D414DA900646022 /* ApprovalDemoTests */,
 				2F2207372D414DA800646022 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		2FA0C0012E8F000000000002 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				2FA0C0012E8F000000000001 /* Signing.xcconfig */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		2F2207372D414DA800646022 /* Products */ = {
@@ -210,6 +220,7 @@
 /* Begin XCBuildConfiguration section */
 		2F2207582D414DA900646022 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2FA0C0012E8F000000000001 /* Signing.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -273,6 +284,7 @@
 		};
 		2F2207592D414DA900646022 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2FA0C0012E8F000000000001 /* Signing.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -350,7 +362,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.oc.ApprovalDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -378,7 +390,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.oc.ApprovalDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -397,7 +409,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ApprovalDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ApprovalDemo";
 			};
@@ -416,7 +428,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.oc.ApprovalDemoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ApprovalDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ApprovalDemo";
 			};

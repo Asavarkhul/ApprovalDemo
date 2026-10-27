@@ -3,13 +3,12 @@ import Foundation
 @testable import ApprovalDemo
 
 @MainActor
-class UserListViewModelTests {
+struct UserListViewModelTests {
     
     @Test
     func testFetchUsersSuccess() async {
         // GIVEN: A mock repo that won’t fail
-        let mockRepository = MockUserListRepository()
-        mockRepository.shouldFail = false
+        let mockRepository = MockUserListRepository(outcome: .success)
         
         // Initialize the view model on the main actor
         let viewModel = UserListViewModel(repository: mockRepository)
@@ -39,8 +38,7 @@ class UserListViewModelTests {
     @Test
     func testFetchUsersFailure() async {
         // GIVEN: A mock repo that fails
-        let mockRepository = MockUserListRepository()
-        mockRepository.shouldFail = true
+        let mockRepository = MockUserListRepository(outcome: .failure)
         
         let viewModel = UserListViewModel(repository: mockRepository)
         

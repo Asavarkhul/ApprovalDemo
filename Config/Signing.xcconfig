@@ -1,0 +1,3 @@
+// Personal signing for running on a device. Create Config/Signing.local.xcconfig with:
+// DEVELOPMENT_TEAM = <your team ID>
+#include? "Signing.local.xcconfig"

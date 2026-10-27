@@ -17,3 +17,6 @@ xcuserdata/
 
 ### Local workflow documents ###
 /docs/thoughts
+
+### Local signing ###
+Config/Signing.local.xcconfig

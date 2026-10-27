@@ -3,7 +3,7 @@ import Foundation
 
 @testable import ApprovalDemo
 
-class UserListRepositoryTests {
+struct UserListRepositoryTests {
 
     @Test
     func testGetUserListSuccess() async {
@@ -60,7 +60,7 @@ class UserListRepositoryTests {
     private func makeMockDataRequest(
         data: Data,
         statusCode: Int = 200
-    ) -> (URLRequest) async throws -> (Data, URLResponse) {
+    ) -> @Sendable (URLRequest) async throws -> (Data, URLResponse) {
         return { request in
             let url = request.url ?? URL(string: "http://invalid.local")!
             let response = HTTPURLResponse(
@@ -73,7 +73,7 @@ class UserListRepositoryTests {
         }
     }
 
-    private func makeFailingDataRequest() -> (URLRequest) async throws -> (Data, URLResponse) {
+    private func makeFailingDataRequest() -> @Sendable (URLRequest) async throws -> (Data, URLResponse) {
         return { _ in
             throw URLError(.cannotConnectToHost)
         }
